@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from "react-router-dom"
 import { MultiSelect } from '../cmp/MultiSelect.jsx'
-import { toyService } from '../services/toy.service.local.js'
+import { toyService } from '../services/toy.service.js'
 import { saveToy } from "../store/actions/toy.actions.js"
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 

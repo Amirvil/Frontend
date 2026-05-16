@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { toyService } from '../services/toy.service.local.js'
+import { toyService } from '../services/toy.service.js'
 
 const toyLabel = toyService.getLabels()
 

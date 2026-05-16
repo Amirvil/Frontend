@@ -1,4 +1,4 @@
-import { toyService } from "../../services/toy.service.local.js"
+import { toyService } from "../../services/toy.service.js"
 import { store } from "../store.js"
 import { SET_TOYS, REMOVE_TOYS, ADD_TOY, UPDATE_TOY } from "../reducers/toy.reducer.js"
 

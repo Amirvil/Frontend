@@ -1,11 +1,13 @@
 import Axios from 'axios'
-const axios = Axios.create({ withCredentials: true })
-
-console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
 const BASE_URL = process.env.NODE_ENV === 'production'
     ? '/api/'
-    : '//localhost:3030/api/'
+    : 'http://localhost:3030/api/'
+
+
+var axios = Axios.create({
+    withCredentials: true
+})
 
 export const httpService = {
     get(endpoint, data) {
@@ -22,22 +24,22 @@ export const httpService = {
     }
 }
 
-function ajax(endpoint, method = 'GET', data = null) {
-    const options = {
-        url: `${BASE_URL}${endpoint}`,
-        method,
-        data,
-        params: (method === 'GET') ? data : null
-    }
-
-    return axios(options)
-        .then(res => res.data)
-        .catch(err => {
-            
-            console.log(`Had Issues ${method}ing to the backend, endpoint: ${endpoint}, with data: `, data)
-            console.dir(err)
-
-            if (err.response && err.response.status === 401) sessionStorage.clear()
-            return Promise.reject(err)
+async function ajax(endpoint, method = 'GET', data = null) {
+    console.log('data:', data)
+    try {
+        const res = await axios({
+            url: `${BASE_URL}${endpoint}`,
+            method,
+            data,
+            params: (method === 'GET') ? data : null
         })
+        return res.data
+    } catch (err) {
+        if (err.response && err.response.status === 401) {
+            sessionStorage.clear();
+            // window.location.assign('/')
+            throw new Error('Unauthorized!')
+        }
+        throw err
+    }
 }
