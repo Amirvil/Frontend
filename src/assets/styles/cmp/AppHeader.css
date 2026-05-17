@@ -1,0 +1,44 @@
+.main-header {
+    background-color: white;
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    .header-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: rgb(62, 28, 62);
+            margin: 0;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .header-link {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgb(62, 28, 62);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .header-link:hover {
+            color: rgb(171, 106, 171);
+        }
+
+        .header-link.active {
+            color: rgb(171, 106, 171);
+        }
+    }
+}
