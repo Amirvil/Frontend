@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toyService } from '../services/toy.service.js'
+import '../assets/styles/cmp/ToyFilter.css'
 
 const toyLabel = toyService.getLabels()
 

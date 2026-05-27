@@ -1,6 +1,7 @@
 import React from 'react'
 import { ToyPreview } from './ToyPreview.jsx'
 import { NavLink } from 'react-router-dom'
+import '../assets/styles/cmp/ToyList.css'
 
 export function ToyList({ toys, onRemove }) {
     return (

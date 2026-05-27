@@ -1,0 +1,103 @@
+.filter-container {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 24px;
+  margin: 20px auto 40px auto;
+  max-width: 1200px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+/* --- Form Layout (Horizontal Flex Engine) --- */
+.form-filter {
+  display: flex;
+  flex-wrap: wrap; /* Allows fields to drop down smoothly on smaller screens */
+  gap: 20px;
+  align-items: flex-end; /* Ensures baseline consistency across mismatched elements */
+}
+
+/* --- Uniform Form Labels --- */
+.filter-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1; /* Distributes spatial priority evenly across rows */
+  min-width: 160px; /* Prevents text boxes from squeezing awkwardly */
+}
+
+/* Style the helper title text layer inside the label */
+.filter-label span.filter-label {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* --- Base Input Controls (Search, Numbers, Selects) --- */
+.form-filter input[type="search"],
+.form-filter input[type="number"],
+.form-filter select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #0f172a;
+  background-color: #ffffff;
+  border: 2px solid #cbd5e1;
+  border-radius: 12px;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+}
+
+/* --- Focus Indicator States --- */
+.form-filter input:focus,
+.form-filter select:focus {
+  outline: none;
+  border-color: #4ecdc4; /* Playful Teal color to match your headers */
+  box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.12);
+}
+
+/* Elevate spatial preference for Text Search */
+.form-filter input[type="search"] {
+  min-width: 220px;
+}
+
+/* --- Multi-Select Multiplier Adjustments --- */
+.form-filter select[multiple] {
+  padding: 6px 10px;
+  min-height: 42px;
+  height: 42px; /* Forces a neat dropdown size block until clicked */
+  overflow-y: auto;
+}
+
+/* Tweak choice options internally */
+.form-filter select[multiple] option {
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-bottom: 2px;
+}
+
+/* --- Adaptive Breakpoints (Responsive Mobile Rules) --- */
+@media (max-width: 1024px) {
+  .filter-label {
+    min-width: calc(33.33% - 14px); /* Locks presentation to 3 neat blocks on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-label {
+    min-width: calc(50% - 10px); /* Adjusts to a 2-column square grid on smaller displays */
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-container {
+    padding: 16px;
+  }
+  
+  .filter-label {
+    min-width: 100%; /* Columns stack cleanly in a straight row on smart devices */
+  }
+}

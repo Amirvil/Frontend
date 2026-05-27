@@ -1,0 +1,15 @@
+.map-wrapper {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    width: 100%;
+    height: 450px;
+    /* Controls the height inside your page content */
+    border-radius: 20px;
+    overflow: hidden;
+    /* Essential: Keeps the canvas corners rounded */
+
+}

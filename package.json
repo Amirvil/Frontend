@@ -10,12 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.0.1",
+    "@mui/material": "^9.0.1",
+    "@recharts/devtools": "^0.0.14",
+    "@vis.gl/react-google-maps": "^1.8.3",
     "axios": "^1.16.1",
+    "formik": "^2.4.9",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.15.1",
-    "redux": "^5.0.1"
+    "recharts": "^3.8.1",
+    "redux": "^5.0.1",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
