@@ -11,8 +11,12 @@ export function MyMap() {
         { id: 's2', name: 'Rehovot', lat: 31.8928, lng: 34.8113 }
     ])
 
-    const [mapCenter, setMapCenter] = useState({ lat: 32.0853, lng: 34.7818 })
-    const [zoom, setZoom] = useState(8)
+    // Calculate center between the two markers
+    const centerLat = (31.609013677901576 + 31.8928) / 2  // 31.75
+    const centerLng = (34.52148726557347 + 34.8113) / 2   // 34.666
+
+    const [mapCenter, setMapCenter] = useState({ lat: centerLat, lng: centerLng })
+    const [zoom, setZoom] = useState(10)  // zoom out a bit to see both markers
 
     function onSelectShop(lat, lng) {
         setMapCenter({ lat, lng })
@@ -21,7 +25,7 @@ export function MyMap() {
 
     return <APIProvider apiKey={API_KEY} >
         <Map
-            style={{ width: '100vw', height: '100vh' }}
+            style={{ width: '100%', height: '100%' }}
             center={mapCenter}
             zoom={zoom}
 

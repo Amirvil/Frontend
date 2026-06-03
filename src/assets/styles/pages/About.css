@@ -1,15 +1,32 @@
-.map-wrapper {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    position: relative;
-    width: 100%;
-    height: 450px;
-    /* Controls the height inside your page content */
-    border-radius: 20px;
+.aboutPage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "h m";
+    gap: 24px;
+    height: 100vh;
     overflow: hidden;
-    /* Essential: Keeps the canvas corners rounded */
 
+    color: rgb(62, 28, 62);
+
+    .hero {
+        grid-area: h;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+    }
+
+    .map-wrapper {
+        grid-area: m;
+        width: 100%;
+        height: 80vh;
+        overflow: hidden;
+
+        text-align: center;
+    }
 }

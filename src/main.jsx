@@ -5,6 +5,8 @@ import { Provider } from 'react-redux'
 import { store } from './store/store.js'
 import { App } from './App.jsx'
 
+import './assets/styles/styles.css'
+
 
 
 const container = document.getElementById('root')

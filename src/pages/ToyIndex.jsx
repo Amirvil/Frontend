@@ -6,6 +6,7 @@ import { ToyList } from '../cmp/ToyList.jsx'
 import { toyService } from '../services/toy.service.js'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js'
 import { ToyFilter } from '../cmp/ToyFilter.jsx'
+import '../assets/styles/pages/ToyIndex.css'
 
 import {
     loadToys,
@@ -47,7 +48,7 @@ export function ToyIndex() {
     }
 
     function onSetFilter(newFilter) {
-        setFilter({...filterBy, ...newFilter})
+        setFilter({ ...filterBy, ...newFilter })
     }
 
     function onSetSort(sort) {
@@ -58,15 +59,11 @@ export function ToyIndex() {
 
     return (
         <div className="toy-app">
-            <section className="main-control-container">
-
-                <NavLink to="/toy/edit" className="btn-add">Add Toy</NavLink>
-                <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
-
-            </section>
+            <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
 
             <ToyList toys={toys} onRemove={onRemoveToy} />
 
+            <NavLink to="/toy/edit" className="btn-add">Add Toy</NavLink>
         </div>
     )
 }
