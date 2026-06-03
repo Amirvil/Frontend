@@ -5,20 +5,15 @@ import logoImg from '../assets/img/rocket-ship-half-shadow.png'
 
 
 export const AppHeader = () => {
-    return <header className="main-header" >
-        <nav className="header-nav container">
-            <div className='header-logo'>
-                <img src={logoImg} className='logo'></img>
-                <h1>A's Toys</h1>
-            </div>
-
-            <div className="header-links">
+    return (
+        <aside className="main-sidebar">
+            <h1>Kiddos</h1>
+            <div className="links-container">
                 <NavLink className="header-link" to="/">Home</NavLink>
                 <NavLink className="header-link" to="/toy">Toys</NavLink>
                 <NavLink className="header-link" to="/toy/dashboard">Dashboard</NavLink>
                 <NavLink className="header-link" to="/toy/about">About</NavLink>
             </div>
-
-        </nav>
-    </header>
+        </aside>
+    )
 }

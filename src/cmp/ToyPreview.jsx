@@ -11,7 +11,7 @@ export function ToyPreview({ toy, onRemove }) {
             {toy.labels.map(label => (<span key={label}>{label}</span>))}
         </div>
 
-        <img src={`https://robohash.org/${toy.name}?set=set2`} alt="" />
+        <img src={`https://robohash.org/${toy.name}?set=set7`} alt="" />
 
         <div>
             In Stock: {(toy.inStock) ? 'Yes' : 'No'}

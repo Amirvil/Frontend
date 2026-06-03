@@ -1,4 +1,23 @@
+html, body {
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
 .main-layout {
 
-    padding: 0px 30px;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+
+    background: url('../../img/Gemini_Generated_Image_9ezvk9ezvk9ezvk9.png') no-repeat center;
+    background-size: cover;
+
+    .main-content {
+        margin-left: 250px;
+        height: 100vh;
+        overflow: hidden;
+        padding: 24px 32px;
+    }
 }

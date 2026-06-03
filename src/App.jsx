@@ -11,18 +11,20 @@ import { Dashboard } from './pages/Dashboard.jsx'
 import '../src/assets/styles/basics/layout.css'
 
 export function App() {
-  return <main className="main-toy-app main-layout">
-    <AppHeader />
-    <Routes>
-      <Route element={<ToyDetails />} path="/toy/details/:toyId" />
-      <Route element={<ToyEdit />} path="/toy/edit/:toyId?" />
-      <Route element={<ToyIndex />} path="/toy" />
-      <Route element={<About />} path="/toy/about" />
-      <Route element={<Dashboard />} path="/toy/dashboard" />
-      <Route element={<Home />} path="/" />
-    </Routes>
-
-    <UserMsg />
-  </main >
-
+  return (
+    <div className="main-layout">
+      <AppHeader />
+      <main className="main-content" style={{ overflow: 'hidden' }}>
+        <Routes>
+          <Route element={<ToyDetails />} path="/toy/details/:toyId" />
+          <Route element={<ToyEdit />} path="/toy/edit/:toyId?" />
+          <Route element={<ToyIndex />} path="/toy" />
+          <Route element={<About />} path="/toy/about" />
+          <Route element={<Dashboard />} path="/toy/dashboard" />
+          <Route element={<Home />} path="/" />
+        </Routes>
+      </main>
+      <UserMsg />
+    </div>
+  )
 }

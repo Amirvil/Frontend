@@ -1,22 +1,39 @@
-import React from 'react'
+import { useState } from 'react'
+import { useEffectUpdate } from '../customHooks/useEffectUpdate'
 
-export function ToySort({ sort, onSetSort }) {
+export function ToySort({ sortBy, onSetFilter }) {
+  const [sortByToEdit, setSortByToEdit] = useState({ ...sortBy })
 
-    function handleSortChange(by) {
-        const updatedSort = { ...sort, by }
-        onSetSort(updatedSort)
-    }
+  useEffectUpdate(() => {
+    onSetFilter({ sortBy: sortByToEdit })
+  }, [sortByToEdit])
 
-    function handleToggleDirection() {
-        const updatedSort = { ...sort, asc: !sort.asc }
-        console.log("🚀 ~ file: ToySort.jsx:12 ~ handleToggleDirection ~ updatedSort:", updatedSort)
-        onSetSort(updatedSort)
-    }
+  function handleChange({ target }) {
+    const field = target.name
+    const value = target.type === 'number' ? +target.value : target.value
+    setSortByToEdit(prevSort => ({
+      ...prevSort,
+      [field]: field === 'sortDir' ? -prevSort.sortDir : value,
+    }))
+  }
 
-    return <section className="toy-sort">
-        <h3>Sort toys:</h3>
-        <button onClick={() => handleSortChange('name')}>By name</button>
-        <button onClick={() => handleSortChange('price')}>By price</button>
-        <button onClick={handleToggleDirection}>Change direction {sort.asc ? '^' : 'v'}</button>
-    </section>
+  return (
+    <form className="toy-sort">
+      <select name="type" value={sortByToEdit.type} onChange={handleChange}>
+        <option value="">Sort by</option>
+        <option value="name">Name</option>
+        <option value="price">Price</option>
+        <option value="createdAt">Date</option>
+      </select>
+      <label>
+        <input
+          type="checkbox"
+          name="sortDir"
+          checked={sortByToEdit.sortDir < 0}
+          onChange={handleChange}
+        />
+        Descending
+      </label>
+    </form>
+  )
 }
