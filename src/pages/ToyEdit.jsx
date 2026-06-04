@@ -1,205 +1,146 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from "react-router-dom"
-import { Formik, Form, Field } from 'formik'
-import {
-    Button,
-    TextField,
-    MenuItem,
-    Container,
-    Paper,
-    Typography,
-    Box,
-    Grid,
-    CircularProgress,
-    Divider
-} from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import SaveIcon from '@mui/icons-material/Save'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
-
 import { MultiSelect } from '../cmp/MultiSelect.jsx'
 import { toyService } from '../services/toy.service.js'
-import { saveToy } from "../store/actions/toy.actions.js"
+import { saveToy } from '../store/actions/toy.actions.js'
+import '../assets/styles/pages/ToyEdit.css'
 
 const ToySchema = Yup.object().shape({
-    name: Yup.string()
-        .min(2, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
-    price: Yup.number()
-        .typeError('Price must be a number')
-        .positive('Price must be greater than 0')
-        .required('Price is required'),
-    labels: Yup.array()
-        .of(Yup.string())
-        .min(1, 'Please select at least one label/category'),
+    name: Yup.string().min(2, 'Too short').max(50, 'Too long').required('Required'),
+    price: Yup.number().typeError('Must be a number').positive('Must be greater than 0').required('Required'),
+    labels: Yup.array().min(1, 'Select at least one label'),
     inStock: Yup.boolean().required()
 })
 
 export function ToyEdit() {
-    const [initialValues, setInitialValues] = useState({
-        name: '',
-        price: '',
-        labels: [],
-        inStock: true
-    })
     const [isLoading, setIsLoading] = useState(false)
-
     const { toyId } = useParams()
     const navigate = useNavigate()
 
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            price: '',
+            labels: [],
+            inStock: true
+        },
+        validationSchema: ToySchema,
+        enableReinitialize: true,
+        onSubmit: async (values, { setSubmitting }) => {
+            try {
+                const toyToSave = {
+                    ...values,
+                    price: +values.price,
+                    inStock: values.inStock === 'true' || values.inStock === true
+                }
+                if (toyId) toyToSave._id = toyId
+                await saveToy(toyToSave)
+                navigate('/toy')
+            } catch (err) {
+                console.error('Cannot save toy:', err)
+            } finally {
+                setSubmitting(false)
+            }
+        }
+    })
+
     useEffect(() => {
         if (!toyId) return
-
         setIsLoading(true)
         toyService.getById(toyId)
             .then(toy => {
-                setInitialValues({
-                    ...toy,
+                formik.setValues({
+                    name: toy.name || '',
                     price: toy.price || '',
                     labels: toy.labels || [],
                     inStock: toy.inStock ?? true
                 })
             })
-            .catch(err => {
-                console.error('Failed to load toy:', err)
-            })
+            .catch(err => console.error('Failed to load toy:', err))
             .finally(() => setIsLoading(false))
     }, [toyId])
 
-    function onSubmit(values, { setSubmitting }) {
-        const toyToSave = {
-            ...initialValues,
-            ...values,
-            price: +values.price,
-            inStock: values.inStock === 'true' || values.inStock === true
-        }
-
-        saveToy(toyToSave)
-            .then(() => {
-                navigate('/toy')
-            })
-            .catch(err => {
-                console.error('Cannot save toy:', err)
-            })
-            .finally(() => setSubmitting(false))
-    }
-
-    if (isLoading) {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="50vh">
-                <CircularProgress />
-            </Box>
-        )
-    }
+    if (isLoading) return <div className="loading">Loading...</div>
 
     return (
-        <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
+        <div className="toy-edit-page">
+            <div className="toy-edit-card">
+                <div className="toy-edit-header">
+                    <h1>{toyId ? 'Edit Toy' : 'Add New Toy'}</h1>
+                    <p>{toyId ? 'Update the toy details below' : 'Fill in the details to add a new toy'}</p>
+                </div>
 
-            <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
-                <Typography variant="h5" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
-                    {toyId ? 'Edit Toy Details' : 'Add New Toy'}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                    Fill out the configuration settings below to save your inventory data.
-                </Typography>
+                <form onSubmit={formik.handleSubmit} className="toy-edit-form">
+                    <div className="form-group">
+                        <label htmlFor="name">Toy Name</label>
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            placeholder="Enter toy name"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.name}
+                            className={formik.touched.name && formik.errors.name ? 'error' : ''}
+                        />
+                        {formik.touched.name && formik.errors.name &&
+                            <span className="error-msg">{formik.errors.name}</span>}
+                    </div>
 
-                <Divider sx={{ mb: 4 }} />
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="price">Price ($)</label>
+                            <input
+                                id="price"
+                                name="price"
+                                type="number"
+                                placeholder="Enter price"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.price}
+                                className={formik.touched.price && formik.errors.price ? 'error' : ''}
+                            />
+                            {formik.touched.price && formik.errors.price &&
+                                <span className="error-msg">{formik.errors.price}</span>}
+                        </div>
 
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={ToySchema}
-                    onSubmit={onSubmit}
-                    enableReinitialize={true}
-                >
-                    {({ values, setFieldValue, errors, touched, isSubmitting }) => (
-                        <Form autoComplete="off">
-                            <Grid container spacing={3}>
+                        <div className="form-group">
+                            <label htmlFor="inStock">Availability</label>
+                            <select
+                                id="inStock"
+                                name="inStock"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.inStock}
+                            >
+                                <option value="true">In Stock</option>
+                                <option value="false">Out of Stock</option>
+                            </select>
+                        </div>
+                    </div>
 
-                                {/* Toy Name Column */}
-                                <Grid size={12}>
-                                    <Field
-                                        as={TextField}
-                                        id="name"
-                                        name="name"
-                                        label="Toy Name"
-                                        variant="outlined"
-                                        fullWidth
-                                        error={touched.name && Boolean(errors.name)}
-                                        helperText={touched.name && errors.name}
-                                    />
-                                </Grid>
+                    <div className="form-group">
+                        <label>Labels</label>
+                        <MultiSelect
+                            value={formik.values.labels}
+                            onChange={(labels) => formik.setFieldValue('labels', labels)}
+                        />
+                        {formik.touched.labels && formik.errors.labels &&
+                            <span className="error-msg">{formik.errors.labels}</span>}
+                    </div>
 
-                                {/* Price Column */}
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                    <Field
-                                        as={TextField}
-                                        id="price"
-                                        name="price"
-                                        label="Price ($)"
-                                        type="number"
-                                        variant="outlined"
-                                        fullWidth
-                                        error={touched.price && Boolean(errors.price)}
-                                        helperText={touched.price && errors.price}
-                                    />
-                                </Grid>
-
-                                {/* Stock Selection Dropdown */}
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                    <Field
-                                        as={TextField}
-                                        id="inStock"
-                                        name="inStock"
-                                        select
-                                        label="Availability"
-                                        fullWidth
-                                        error={touched.inStock && Boolean(errors.inStock)}
-                                        helperText={touched.inStock && errors.inStock}
-                                    >
-                                        <MenuItem value="true">Available / In Stock</MenuItem>
-                                        <MenuItem value="false">Out of Stock</MenuItem>
-                                    </Field>
-                                </Grid>
-
-                                {/* Labels Component Integration */}
-                                <Grid size={12}>
-                                    <MultiSelect
-                                        value={values.labels}
-                                        onChange={(selectedLabels) => setFieldValue('labels', selectedLabels)}
-                                        error={touched.labels && Boolean(errors.labels)}
-                                        helperText={touched.labels && errors.labels}
-                                    />
-                                </Grid>
-
-                                {/* Form Action Buttons */}
-                                <Grid size={12} sx={{ mt: 2 }}>
-                                    <Box display="flex" gap={2} justifyContent="flex-end">
-                                        <Button
-                                            variant="outlined"
-                                            color="error"
-                                            onClick={() => navigate('/toy')}
-                                            disabled={isSubmitting}
-                                        >
-                                            Cancel
-                                        </Button>
-                                        <Button
-                                            type="submit"
-                                            variant="contained"
-                                            color="primary"
-                                            startIcon={<SaveIcon />}
-                                            disabled={isSubmitting}
-                                        >
-                                            {toyId ? 'Save Changes' : 'Create Toy'}
-                                        </Button>
-                                    </Box>
-                                </Grid>
-
-                            </Grid>
-                        </Form>
-                    )}
-                </Formik >
-            </Paper>
-        </Container>
+                    <div className="form-actions">
+                        <button type="button" className="btn-cancel" onClick={() => navigate('/toy')}>
+                            Cancel
+                        </button>
+                        <button type="submit" className="btn-save" disabled={formik.isSubmitting}>
+                            {formik.isSubmitting ? 'Saving...' : toyId ? 'Save Changes' : 'Create Toy'}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     )
 }

@@ -1,4 +1,4 @@
-.toy-edit-page {
+.login-page {
     height: 100vh;
     display: flex;
     align-items: flex-start;
@@ -6,19 +6,30 @@
     justify-content: flex-start;
     padding-left: 200px;
 
-    .toy-edit-card {
+    .login-card {
         background: rgba(255, 255, 255, 0.7);
         backdrop-filter: blur(10px);
         border: 0.5px solid rgba(255, 255, 255, 0.8);
         border-radius: 20px;
         padding: 40px;
         width: 100%;
-        max-width: 560px;
+        max-width: 400px;
         display: flex;
         flex-direction: column;
         gap: 24px;
 
-        .toy-edit-header {
+        .login-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-align: center;
+
+            .login-icon {
+                width: 56px;
+                height: 56px;
+            }
+
             h1 {
                 font-size: 1.8rem;
                 color: rgb(62, 28, 62);
@@ -28,20 +39,14 @@
             p {
                 font-size: 0.9rem;
                 color: #888;
-                margin: 4px 0 0;
+                margin: 0;
             }
         }
 
-        .toy-edit-form {
+        .login-form {
             display: flex;
             flex-direction: column;
             gap: 16px;
-
-            .form-row {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 16px;
-            }
 
             .form-group {
                 display: flex;
@@ -54,8 +59,7 @@
                     color: rgb(62, 28, 62);
                 }
 
-                input,
-                select {
+                input {
                     padding: 10px 14px;
                     border-radius: 10px;
                     border: 0.5px solid rgba(0, 0, 0, 0.15);
@@ -80,45 +84,25 @@
                 }
             }
 
-            .form-actions {
-                display: flex;
-                justify-content: flex-end;
-                gap: 12px;
+            .btn-login {
                 margin-top: 8px;
+                padding: 12px;
+                border-radius: 10px;
+                border: none;
+                background: rgb(62, 28, 62);
+                color: white;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.15s ease;
 
-                button {
-                    padding: 10px 24px;
-                    border-radius: 10px;
-                    font-size: 0.95rem;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: all 0.15s ease;
-                    border: none;
+                &:hover {
+                    background: rgb(171, 106, 171);
                 }
 
-                .btn-cancel {
-                    background: rgba(255, 255, 255, 0.7);
-                    border: 0.5px solid rgba(0, 0, 0, 0.15);
-                    color: rgb(62, 28, 62);
-
-                    &:hover {
-                        background: rgba(200, 0, 0, 0.1);
-                        color: red;
-                    }
-                }
-
-                .btn-save {
-                    background: rgb(62, 28, 62);
-                    color: white;
-
-                    &:hover {
-                        background: rgb(171, 106, 171);
-                    }
-
-                    &:disabled {
-                        opacity: 0.6;
-                        cursor: not-allowed;
-                    }
+                &:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
                 }
             }
         }

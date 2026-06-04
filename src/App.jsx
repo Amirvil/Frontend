@@ -8,6 +8,7 @@ import { AppHeader } from './cmp/AppHeader.jsx'
 import { ToyEdit } from './pages/ToyEdit.jsx'
 import { About } from './pages/About.jsx'
 import { Dashboard } from './pages/Dashboard.jsx'
+import { Login } from './pages/Login.jsx'
 import '../src/assets/styles/basics/layout.css'
 
 export function App() {
@@ -16,6 +17,7 @@ export function App() {
       <AppHeader />
       <main className="main-content" style={{ overflow: 'hidden' }}>
         <Routes>
+          <Route element={<Login />} path="/auth/login" />
           <Route element={<ToyDetails />} path="/toy/details/:toyId" />
           <Route element={<ToyEdit />} path="/toy/edit/:toyId?" />
           <Route element={<ToyIndex />} path="/toy" />
