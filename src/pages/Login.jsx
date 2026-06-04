@@ -78,9 +78,32 @@ export function Login() {
                         }
                     </div>
 
+                    <div className="form-group">
+                        <label htmlFor="re-password">Re enter your password</label>
+                        <input
+                            id="re-password"
+                            name="re-password"
+                            type="re-password"
+                            placeholder="Re enter your password"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.password}
+                            className={formik.touched.password && formik.errors.password ? 'error' : ''}
+                        />
+                        {formik.touched.password && formik.errors.password &&
+                            <span className="error-msg">{formik.errors.password}</span>
+                        }
+                    </div>
+
                     <button type="submit" className="btn-login" disabled={formik.isSubmitting}>
                         {formik.isSubmitting ? 'Signing in...' : 'Sign in'}
                     </button>
+                    <div className='signup-container'>
+                        <p>Dont have account yet?</p>
+                        <button type="button" className="btn-signup" disabled={formik.isSubmitting}>
+                        Sign Up
+                    </button>
+                    </div>
                 </form>
             </div>
         </div>

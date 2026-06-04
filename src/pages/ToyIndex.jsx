@@ -37,9 +37,13 @@ export function ToyIndex() {
 
 
     async function onRemoveToy(toyId) {
+        if (!user?.isAdmin) {
+            showErrorMsg('You must be admin to remove items')
+            return
+        }
+
         try {
             await removeToyOptimistic(toyId)
-            loadToys()
             showSuccessMsg('Toy removed')
         } catch (error) {
             console.log('Cannot remove toy', error)
@@ -59,14 +63,21 @@ export function ToyIndex() {
 
     return (
         <div className="toy-app">
-            <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
+            <header className="toy-index-header">
+                <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
 
-            <ToyList toys={toys} onRemove={onRemoveToy} />
+                {user?.isAdmin && (
+                    <NavLink to="/toy/edit" className="btn-add">
+                        Add Toy
+                    </NavLink>
+                )}
+            </header>
 
-            <NavLink to="/toy/edit" className="btn-add">Add Toy</NavLink>
+            {toys.length === 0 ? (
+                <div className="no-toys-fallback">No toys found matching current criteria.</div>
+            ) : (
+                <ToyList toys={toys} onRemove={onRemoveToy} />
+            )}
         </div>
     )
 }
-
-
-

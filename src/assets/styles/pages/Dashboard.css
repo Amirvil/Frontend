@@ -1,0 +1,58 @@
+.dashboard {
+    height: 100vh;
+    overflow: hidden;
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+
+    .chart-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 0.5px solid rgba(255, 255, 255, 0.8);
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        overflow: hidden;
+
+        h3 {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    .stats-card {
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            flex: 1;
+
+            .stat-box {
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 10px;
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+
+                .stat-num {
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    color: rgb(62, 28, 62);
+                }
+
+                .stat-label {
+                    font-size: 0.78rem;
+                    color: #888;
+                }
+            }
+        }
+    }
+}

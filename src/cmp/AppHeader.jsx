@@ -21,7 +21,7 @@ export const AppHeader = () => {
             <h1>Kiddos</h1>
             <div className="links-container">
                 <NavLink className="header-link" to="/">Home</NavLink>
-                <NavLink className="header-link" to="/toy">Toys</NavLink>
+                <NavLink className="header-link" to="/toy" end>Toys</NavLink>
                 <NavLink className="header-link" to="/toy/dashboard">Dashboard</NavLink>
                 <NavLink className="header-link" to="/toy/about">About</NavLink>
             </div>

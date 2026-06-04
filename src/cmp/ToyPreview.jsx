@@ -1,10 +1,7 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-
-export function ToyPreview({ toy, onRemove }) {
+export function ToyPreview({ toy, onRemove, isAdmin }) {
     return (
         <>
-            <button onClick={() => onRemove(toy._id)} className="btn-remove">✕</button>
+            {isAdmin && <button onClick={() => onRemove(toy._id)} className="btn-remove">✕</button>}
             <img src={`https://robohash.org/${toy.name}?set=set7`} alt={toy.name} />
             <div className='toy-name'>{toy.name}</div>
             <div className='toy-labels'>
