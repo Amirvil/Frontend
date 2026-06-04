@@ -27,11 +27,12 @@ const labels = [
 ]
 
 async function query(filterBy = {}) {
-    const filterToSend = {
-        ...filterBy,
-        sortBy: JSON.stringify(filterBy.sortBy),
-    }
-    return httpService.get(BASE_URL, filterToSend)
+  const filterToSend = {
+    ...filterBy,
+    sortBy: JSON.stringify(filterBy.sortBy),
+    labels: JSON.stringify(filterBy.labels),
+  }
+  return httpService.get(BASE_URL, filterToSend)
 }
 
 async function getById(toyId) {

@@ -11,6 +11,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
     const debouncedOnSetFilter = useRef(utilService.debounce(onSetFilter, 300))
 
     useEffectUpdate(() => {
+        console.log('filterByToEdit changed:', filterByToEdit)  // check this fires
         debouncedOnSetFilter.current(filterByToEdit)
     }, [filterByToEdit])
 
@@ -21,6 +22,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
     }
 
     function onLabelsChange(labels) {
+        console.log('labels changed:', labels)
         setFilterByToEdit(prevFilter => ({ ...prevFilter, labels }))
     }
 
