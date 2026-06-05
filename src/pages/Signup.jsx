@@ -10,26 +10,33 @@ import '../assets/styles/pages/Login.css'
 
 function validate(values) {
     const errors = {}
+    if (!values.fullname) errors.fullname = 'Full name is required'
     if (!values.username) errors.username = 'Username is required'
     if (!values.password) errors.password = 'Password is required'
     else if (values.password.length < 4) errors.password = 'Minimum 4 characters'
+    if (!values.rePassword) errors.rePassword = 'Please confirm your password'
+    else if (values.rePassword !== values.password) errors.rePassword = 'Passwords do not match'
     return errors
 }
 
-export function Login() {
+export function Signup() {
     const navigate = useNavigate()
 
     const formik = useFormik({
-        initialValues: { username: '', password: '' },
+        initialValues: { fullname: '', username: '', password: '', rePassword: '' },
         validate,
         onSubmit: async (values) => {
             try {
-                const user = await userService.login(values)
+                const user = await userService.signup({
+                    fullname: values.fullname,
+                    username: values.username,
+                    password: values.password,
+                })
                 store.dispatch({ type: SET_USER, user })
-                showSuccessMsg(`Welcome back, ${user.fullname || user.username}!`)
+                showSuccessMsg(`Welcome, ${user.fullname || user.username}!`)
                 navigate('/')
             } catch (err) {
-                showErrorMsg('Invalid username or password')
+                showErrorMsg(err.message || 'Signup failed, username may already exist')
             }
         }
     })
@@ -38,19 +45,36 @@ export function Login() {
         <div className="login-page">
             <div className="login-card">
                 <div className="login-header">
-                    <img src={loginIcon} className="login-icon" alt="Login" />
-                    <h1>Welcome back</h1>
-                    <p>Sign in to your Kiddos account</p>
+                    <img src={loginIcon} className="login-icon" alt="Signup" />
+                    <h1>Create account</h1>
+                    <p>Join Kiddos today</p>
                 </div>
 
                 <form onSubmit={formik.handleSubmit} className="login-form">
+                    <div className="form-group">
+                        <label htmlFor="fullname">Full Name</label>
+                        <input
+                            id="fullname"
+                            name="fullname"
+                            type="text"
+                            placeholder="Enter your full name"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.fullname}
+                            className={formik.touched.fullname && formik.errors.fullname ? 'error' : ''}
+                        />
+                        {formik.touched.fullname && formik.errors.fullname &&
+                            <span className="error-msg">{formik.errors.fullname}</span>
+                        }
+                    </div>
+
                     <div className="form-group">
                         <label htmlFor="username">Username</label>
                         <input
                             id="username"
                             name="username"
                             type="text"
-                            placeholder="Enter your username"
+                            placeholder="Choose a username"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.username}
@@ -67,7 +91,7 @@ export function Login() {
                             id="password"
                             name="password"
                             type="password"
-                            placeholder="Enter your password"
+                            placeholder="Create a password"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
@@ -78,13 +102,30 @@ export function Login() {
                         }
                     </div>
 
+                    <div className="form-group">
+                        <label htmlFor="rePassword">Confirm Password</label>
+                        <input
+                            id="rePassword"
+                            name="rePassword"
+                            type="password"
+                            placeholder="Re-enter your password"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.rePassword}
+                            className={formik.touched.rePassword && formik.errors.rePassword ? 'error' : ''}
+                        />
+                        {formik.touched.rePassword && formik.errors.rePassword &&
+                            <span className="error-msg">{formik.errors.rePassword}</span>
+                        }
+                    </div>
+
                     <button type="submit" className="btn-login" disabled={formik.isSubmitting}>
-                        {formik.isSubmitting ? 'Signing in...' : 'Sign in'}
+                        {formik.isSubmitting ? 'Creating account...' : 'Sign up'}
                     </button>
                     <div className='signup-container'>
-                        <p>Dont have account yet?</p>
-                        <button type="button" className="btn-signup" onClick={() => navigate('/auth/signup')}>
-                            Sign Up
+                        <p>Already have an account?</p>
+                        <button type="button" className="btn-signup" onClick={() => navigate('/auth/login')}>
+                            Sign in
                         </button>
                     </div>
                 </form>

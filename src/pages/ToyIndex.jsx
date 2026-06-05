@@ -66,17 +66,19 @@ export function ToyIndex() {
             <header className="toy-index-header">
                 <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
 
-                {user?.isAdmin && (
-                    <NavLink to="/toy/edit" className="btn-add">
-                        Add Toy
-                    </NavLink>
-                )}
+
             </header>
 
             {toys.length === 0 ? (
                 <div className="no-toys-fallback">No toys found matching current criteria.</div>
             ) : (
                 <ToyList toys={toys} onRemove={onRemoveToy} />
+            )}
+
+            {user?.isAdmin && (
+                <NavLink to="/toy/edit" className="btn-add">
+                    Add Toy
+                </NavLink>
             )}
         </div>
     )

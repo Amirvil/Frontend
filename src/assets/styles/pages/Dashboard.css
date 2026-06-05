@@ -1,11 +1,12 @@
 .dashboard {
-    height: 100vh;
+    height: calc(100vh - 10px);
     overflow: hidden;
     padding: 24px 32px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 20px;
+    box-sizing: border-box;
 
     .chart-card {
         background: rgba(255, 255, 255, 0.7);

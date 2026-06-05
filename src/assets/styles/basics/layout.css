@@ -1,9 +1,9 @@
-
 .main-layout {
 
     display: flex;
     height: 100vh;
     overflow: hidden;
+
 
     background: url('../../img/Gemini_Generated_Image_9ezvk9ezvk9ezvk9.png') no-repeat center;
     background-size: cover;
@@ -12,8 +12,8 @@
         margin-left: 250px;
         height: 100vh;
         overflow: hidden;
-        padding: 24px 32px;
+        padding: 10px 32px 24px 32px;
         width: calc(100vw - 250px);
-        /* add this */
+        box-sizing: border-box;
     }
 }

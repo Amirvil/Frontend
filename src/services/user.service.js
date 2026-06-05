@@ -21,6 +21,7 @@ async function login({ username, password }) {
     return user
   } catch (error) {
     console.log('Could not login')
+    throw error
   }
 }
 
@@ -31,6 +32,7 @@ async function signup(credentials) {
     return user
   } catch (err) {
     console.log('Could not signup')
+    throw error
   }
 }
 
